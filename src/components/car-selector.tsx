@@ -41,7 +41,7 @@ export function CarSelector({
   const { data: price, isLoading: priceLoading } = usePrice(brandCode, modelCode, yearCode);
 
   const selectedBrand = brands?.find((b) => b.code === brandCode);
-  const selectedModel = modelsData?.models.find((m) => m.code === modelCode);
+  const selectedModel = modelsData?.models?.find((m) => m.code === modelCode);
   const selectedYear = years?.find((y) => y.code === yearCode);
 
   // Notify parent when a car is fully selected
@@ -75,7 +75,7 @@ export function CarSelector({
             </Button>
           </div>
         ) : (
-          <Select value={brandCode ?? undefined} onValueChange={(v) => { if (v) onBrandChange(v); }}>
+          <Select value={brandCode} onValueChange={(v) => { if (v) onBrandChange(v); }}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Selecione a marca..." />
             </SelectTrigger>
@@ -98,14 +98,14 @@ export function CarSelector({
             <Skeleton className="h-8 w-full rounded-lg" />
           ) : (
             <Select
-              value={modelCode?.toString() ?? undefined}
+              value={modelCode?.toString() ?? null}
               onValueChange={(v) => { if (v) onModelChange(parseInt(v, 10)); }}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Selecione o modelo..." />
               </SelectTrigger>
               <SelectContent>
-                {modelsData?.models.map((model) => (
+                {modelsData?.models?.map((model) => (
                   <SelectItem key={model.code} value={model.code.toString()}>
                     {model.name}
                   </SelectItem>
@@ -123,7 +123,7 @@ export function CarSelector({
           {yearsLoading ? (
             <Skeleton className="h-8 w-full rounded-lg" />
           ) : (
-            <Select value={yearCode ?? undefined} onValueChange={(v) => { if (v) onYearChange(v); }}>
+            <Select value={yearCode} onValueChange={(v) => { if (v) onYearChange(v); }}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Selecione o ano..." />
               </SelectTrigger>

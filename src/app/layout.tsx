@@ -70,7 +70,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://parallelum.com.br" />
         <link rel="dns-prefetch" href="https://parallelum.com.br" />
       </head>
-      <body className="min-h-full flex flex-col antialiased">
+      <body className="min-h-full flex flex-col antialiased" suppressHydrationWarning>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-foreground focus:ring-2 focus:ring-ring"
