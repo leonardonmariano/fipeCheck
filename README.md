@@ -1,4 +1,4 @@
-# 🚗 Quanto Custa Esse Trem?
+# Quanto Custa Esse Trem?
 
 > Calculadora brasileira de **custo real** de se ter um carro — depreciação, combustível, IPVA, seguro, manutenção e mais, tudo com dados reais da tabela FIPE.
 
