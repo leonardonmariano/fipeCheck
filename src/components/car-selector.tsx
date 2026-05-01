@@ -41,7 +41,7 @@ export function CarSelector({
   const { data: price, isLoading: priceLoading } = usePrice(brandCode, modelCode, yearCode);
 
   const selectedBrand = brands?.find((b) => b.code === brandCode);
-  const selectedModel = models?.find((m) => m.code === modelCode);
+  const selectedModel = models?.find((m) => String(m.code) === String(modelCode));
   const selectedYear = years?.find((y) => y.code === yearCode);
 
   // Notify parent when a car is fully selected
@@ -146,30 +146,27 @@ export function CarSelector({
       )}
 
       {/* Valor FIPE */}
-      {yearCode && (
+      {yearCode && priceLoading && (
+        <div className="space-y-2 px-1">
+          <Skeleton className="h-3 w-40" />
+          <Skeleton className="h-7 w-52" />
+          <Skeleton className="h-5 w-32" />
+        </div>
+      )}
+      {yearCode && !priceLoading && price && (
         <div className="rounded-lg border border-primary/20 bg-primary/5 p-4 transition-all">
-          {priceLoading ? (
-            <div className="space-y-2">
-              <Skeleton className="h-3 w-40" />
-              <Skeleton className="h-7 w-52" />
-              <Skeleton className="h-5 w-32" />
-            </div>
-          ) : price ? (
-            <>
-              <p className="text-xs text-muted-foreground">
-                Tabela FIPE — {price.referenceMonth}
-              </p>
-              <p className="mt-1 font-mono text-2xl font-bold text-foreground font-numeric">
-                {formatCurrency(price.value)}
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                <Badge variant="secondary">{price.fuel}</Badge>
-                <Badge variant="secondary" className="font-mono text-xs">
-                  {price.codeFipe}
-                </Badge>
-              </div>
-            </>
-          ) : null}
+          <p className="text-xs text-muted-foreground">
+            Tabela FIPE — {price.referenceMonth}
+          </p>
+          <p className="mt-1 font-mono text-2xl font-bold text-foreground font-numeric">
+            {formatCurrency(price.value)}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <Badge variant="secondary">{price.fuel}</Badge>
+            <Badge variant="secondary" className="font-mono text-xs">
+              {price.codeFipe}
+            </Badge>
+          </div>
         </div>
       )}
     </div>
