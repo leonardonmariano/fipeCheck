@@ -1,7 +1,7 @@
 "use client";
 
 import useSWR from "swr";
-import type { FipeBrand, FipeModel, FipeModelsResponse, FipeYear, FipePrice } from "@/types";
+import type { FipeBrand, FipeModel, FipeYear, FipePrice } from "@/types";
 
 const BASE_URL = "https://parallelum.com.br/fipe/api/v2";
 
@@ -21,8 +21,8 @@ export async function fetchBrands(): Promise<FipeBrand[]> {
   return fetcher<FipeBrand[]>(`${BASE_URL}/cars/brands`);
 }
 
-export async function fetchModels(brandCode: string): Promise<FipeModelsResponse> {
-  return fetcher<FipeModelsResponse>(`${BASE_URL}/cars/brands/${brandCode}/models`);
+export async function fetchModels(brandCode: string): Promise<FipeModel[]> {
+  return fetcher<FipeModel[]>(`${BASE_URL}/cars/brands/${brandCode}/models`);
 }
 
 export async function fetchYears(
@@ -60,9 +60,9 @@ export function useBrands() {
 }
 
 export function useModels(brandCode: string | null) {
-  return useSWR<FipeModelsResponse, Error>(
+  return useSWR<FipeModel[], Error>(
     brandCode ? `${BASE_URL}/cars/brands/${brandCode}/models` : null,
-    fetcher<FipeModelsResponse>,
+    fetcher<FipeModel[]>,
     SWR_OPTIONS
   );
 }

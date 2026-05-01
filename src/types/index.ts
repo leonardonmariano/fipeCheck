@@ -15,11 +15,8 @@ export interface FipeYear {
   name: string; // e.g. "2023 Gasolina"
 }
 
-// The /models endpoint at parallelum v2 returns models + years together
-export interface FipeModelsResponse {
-  models: FipeModel[];
-  years: FipeYear[];
-}
+// The /models endpoint at parallelum v2 returns a flat array of models
+export type FipeModelsResponse = FipeModel[];
 
 export interface FipePrice {
   value: number; // numeric FIPE value (e.g. 89000.00)

@@ -36,12 +36,12 @@ export function CarSelector({
   onCarReady,
 }: CarSelectorProps) {
   const { data: brands, isLoading: brandsLoading, error: brandsError, mutate: retryBrands } = useBrands();
-  const { data: modelsData, isLoading: modelsLoading } = useModels(brandCode);
+  const { data: models, isLoading: modelsLoading } = useModels(brandCode);
   const { data: years, isLoading: yearsLoading } = useYears(brandCode, modelCode);
   const { data: price, isLoading: priceLoading } = usePrice(brandCode, modelCode, yearCode);
 
   const selectedBrand = brands?.find((b) => b.code === brandCode);
-  const selectedModel = modelsData?.models?.find((m) => m.code === modelCode);
+  const selectedModel = models?.find((m) => m.code === modelCode);
   const selectedYear = years?.find((y) => y.code === yearCode);
 
   // Notify parent when a car is fully selected
@@ -77,7 +77,9 @@ export function CarSelector({
         ) : (
           <Select value={brandCode} onValueChange={(v) => { if (v) onBrandChange(v); }}>
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecione a marca..." />
+              <SelectValue placeholder="Selecione a marca...">
+                {selectedBrand?.name}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {brands?.map((brand) => (
@@ -102,10 +104,12 @@ export function CarSelector({
               onValueChange={(v) => { if (v) onModelChange(parseInt(v, 10)); }}
             >
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecione o modelo..." />
+                <SelectValue placeholder="Selecione o modelo...">
+                {selectedModel?.name}
+              </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {modelsData?.models?.map((model) => (
+                {models?.map((model) => (
                   <SelectItem key={model.code} value={model.code.toString()}>
                     {model.name}
                   </SelectItem>
@@ -125,7 +129,9 @@ export function CarSelector({
           ) : (
             <Select value={yearCode} onValueChange={(v) => { if (v) onYearChange(v); }}>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecione o ano..." />
+                <SelectValue placeholder="Selecione o ano...">
+                {selectedYear?.name}
+              </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {years?.map((year) => (
