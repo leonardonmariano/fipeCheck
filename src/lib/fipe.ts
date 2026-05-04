@@ -34,12 +34,25 @@ export async function fetchYears(
   );
 }
 
+// The FIPE API may return `value` as a formatted string ("R$ 17.272,00") or a number
+async function priceFetcher(url: string): Promise<FipePrice> {
+  const raw = await fetcher<Record<string, unknown>>(url);
+  const rawValue = raw.value;
+  const numericValue =
+    typeof rawValue === "number"
+      ? rawValue
+      : typeof rawValue === "string"
+      ? parseFloat(rawValue.replace(/[R$\s.]/g, "").replace(",", "."))
+      : 0;
+  return { ...(raw as unknown as FipePrice), value: numericValue };
+}
+
 export async function fetchPrice(
   brandCode: string,
   modelCode: number,
   yearCode: string
 ): Promise<FipePrice> {
-  return fetcher<FipePrice>(
+  return priceFetcher(
     `${BASE_URL}/cars/brands/${brandCode}/models/${modelCode}/years/${yearCode}`
   );
 }
@@ -86,7 +99,7 @@ export function usePrice(
     brandCode && modelCode && yearCode
       ? `${BASE_URL}/cars/brands/${brandCode}/models/${modelCode}/years/${yearCode}`
       : null,
-    fetcher<FipePrice>,
+    priceFetcher,
     SWR_OPTIONS
   );
 }

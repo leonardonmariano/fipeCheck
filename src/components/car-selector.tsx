@@ -38,7 +38,7 @@ export function CarSelector({
   const { data: brands, isLoading: brandsLoading, error: brandsError, mutate: retryBrands } = useBrands();
   const { data: models, isLoading: modelsLoading } = useModels(brandCode);
   const { data: years, isLoading: yearsLoading } = useYears(brandCode, modelCode);
-  const { data: price, isLoading: priceLoading } = usePrice(brandCode, modelCode, yearCode);
+  const { data: price, isLoading: priceLoading, error: priceError } = usePrice(brandCode, modelCode, yearCode);
 
   const selectedBrand = brands?.find((b) => b.code === brandCode);
   const selectedModel = models?.find((m) => String(m.code) === String(modelCode));
@@ -151,6 +151,12 @@ export function CarSelector({
           <Skeleton className="h-3 w-40" />
           <Skeleton className="h-7 w-52" />
           <Skeleton className="h-5 w-32" />
+        </div>
+      )}
+      {yearCode && priceError && (
+        <div className="flex items-center gap-2 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          <AlertCircle className="h-4 w-4 shrink-0" />
+          <span>Erro ao carregar valor FIPE.</span>
         </div>
       )}
       {yearCode && !priceLoading && price && (

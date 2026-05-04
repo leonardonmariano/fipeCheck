@@ -48,7 +48,7 @@ export function CarFlow() {
           />
 
           <AnimatePresence>
-            {selectedCar && (
+            {yearCode && (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -58,9 +58,10 @@ export function CarFlow() {
                 <Button
                   className="w-full font-semibold text-sm"
                   size="lg"
+                  disabled={!selectedCar}
                   onClick={() => setFormOpen(true)}
                 >
-                  Calcular custo real →
+                  {selectedCar ? "Calcular custo real →" : "Carregando valor FIPE..."}
                 </Button>
               </motion.div>
             )}
